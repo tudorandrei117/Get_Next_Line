@@ -3,70 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedperei <pedperei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tburlacu <tburlacu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/02 19:39:07 by pedperei          #+#    #+#             */
-/*   Updated: 2022/11/12 11:58:30 by pedperei         ###   ########.fr       */
+/*   Created: 2022/11/21 13:45:03 by tburlacu          #+#    #+#             */
+/*   Updated: 2022/11/24 14:39:46 by tburlacu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen_mod(const char *s)
+/**
+ * It counts the number of characters in a string.
+ * 
+ * @param s The string to be measured.
+ * 
+ * @return The length of the string.
+ */
+int	ft_strlen(char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (s != NULL && s[i] != '\0')
+
+	while (s[i] != '\n' || s[i] != '\0')
 	{
 		i++;
 	}
 	return (i);
 }
 
-char	*ft_strchr_mod(const char *str, int c)
+/**
+ * It takes two strings and joins them together.
+ * 
+ * @param s1 The first string to be joined.
+ * @param s2 the string to be appended to s1
+ * 
+ * @return A pointer to a new string.
+ */
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	j = 0;
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+	str[j] = s1[i];
+			i++;
+			j++;
+	}
+	i = 0;
+	while (s2[i] != '\0')
+	{
+		str[j] = s2[i];
+			i++;
+			j++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+
+	while (s)
 	{
-		if (str[i] == (char)c)
-		{
-			return ((char *)&str[i + 1]);
-		}
+		if (s[i] == (char)c)
+			return ((char *)&s[i + 1]);
+		if ((char)c == s[i])
+			return ((char *)&s[i]);
 		i++;
-	}
-	if ((char)c == str[i])
-	{
-		return ((char *)&str[i]);
 	}
 	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*strjoin;
-	int		len;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen_mod(s1) + ft_strlen_mod(s2);
-	strjoin = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(strjoin))
-		return (NULL);
-	while (s1 != NULL && s1[i] != '\0')
-	{
-		strjoin[i] = s1[i];
-		i++;
-	}
-	while (s2 != NULL && s2[j] != '\0')
-	{
-		strjoin[i + j] = s2[j];
-		j++;
-	}
-	strjoin[i + j] = '\0';
-	return (strjoin);
 }
