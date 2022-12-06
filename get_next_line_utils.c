@@ -3,70 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedperei <pedperei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tburlacu <tburlacu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/02 19:39:07 by pedperei          #+#    #+#             */
-/*   Updated: 2022/11/12 11:58:30 by pedperei         ###   ########.fr       */
+/*   Created: 2022/11/21 13:45:03 by tburlacu          #+#    #+#             */
+/*   Updated: 2022/12/06 15:04:56 by tburlacu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen_mod(const char *s)
+
+
+size_t	ft_strlen(char *s)
+{
+	size_t	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i] != '\n' && s[i])
+	{
+		i++;
+	}
+	return (i + (s[i] == '\n'));
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1 && s1[j])
+		str[i++] = s1[j++];
+	j = 0;
+	while (s2 && s2[j] && s2[j] != '\n')
+		str[i++] = s2[j++];
+	if (s2[j] == '\n')
+		str[i++] = '\n';
+	str[i] = '\0';
+	free(s1);
+	return (str);
+}
+
+
+int	organizer(char *buf)
+{
+	int i;
+	int j;
+	int isnwl;
+
+	i = 0;
+	j = 0;
+	isnwl = 0;
+	while (buf[i])
+	{
+		if (isnwl)
+			buf[j++] = buf[i];
+		if (buf[i] == '\n')
+			isnwl = 1;
+		buf[i++] = '\0';
+	}
+		return (isnwl);
+}
+
+/* int	checkeol(char *buf)
 {
 	size_t	i;
 
 	i = 0;
-	while (s != NULL && s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	while (buf[i])
+		if (buf[i++] == '\n')
+			return (1);
+	return (0);
 }
 
-char	*ft_strchr_mod(const char *str, int c)
-{
-	int	i;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == (char)c)
-		{
-			return ((char *)&str[i + 1]);
-		}
-		i++;
-	}
-	if ((char)c == str[i])
-	{
-		return ((char *)&str[i]);
-	}
-	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*strjoin;
-	int		len;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen_mod(s1) + ft_strlen_mod(s2);
-	strjoin = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(strjoin))
-		return (NULL);
-	while (s1 != NULL && s1[i] != '\0')
-	{
-		strjoin[i] = s1[i];
-		i++;
-	}
-	while (s2 != NULL && s2[j] != '\0')
-	{
-		strjoin[i + j] = s2[j];
-		j++;
-	}
-	strjoin[i + j] = '\0';
-	return (strjoin);
-}
+ */
